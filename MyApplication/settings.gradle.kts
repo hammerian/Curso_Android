@@ -1,12 +1,8 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         google()
         mavenCentral()
-    }
-    plugins {
-        id 'com.android.application' version '8.1.1'
-        id 'com.android.library' version '8.1.1'
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
@@ -16,5 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "First"
-include ':app'
+
+rootProject.name = "My Application"
+include(":app")
