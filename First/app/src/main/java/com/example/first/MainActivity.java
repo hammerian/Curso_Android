@@ -2,11 +2,13 @@ package com.example.first;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
                 readPassword = edTxtInit2.getText().toString().trim().toLowerCase();
 
                 if (readEmail.equals(hintEmail) && readPassword.equals(hintPassword)) {
-
+                    Intent itn = new Intent(MainActivity.this,MainActivity2.class);
+                    startActivity(itn);
                 } else {
-
+                    Toast.makeText(MainActivity.this, "Email o Password Incorrectos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
