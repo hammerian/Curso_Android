@@ -16,7 +16,7 @@
         android:textColor="@color/black"
         android:textAlignment="center"
         android:textSize="28dp"
-        android:text="Iniciar sesión" />
+        android:text="@string/iniciar_ssn" />
 
     <EditText
         android:id="@+id/edTxtInit1"
@@ -38,7 +38,7 @@
         android:layout_marginTop="50dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:hint="Contraseña" />
+        android:hint="@string/Psswrd" />
 
     <TextView
         android:id="@+id/txtViewSign"
