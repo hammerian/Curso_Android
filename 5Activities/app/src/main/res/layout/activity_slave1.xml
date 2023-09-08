@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SlaveActivity1">
+
+    <TextView
+        android:id="@+id/txtTitleReg"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="@string/rgstrTxt"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="20dp"/>
+
+    <EditText
+        android:id="@+id/edtTxtEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtTitleReg"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType ="textEmailAddress"
+        android:hint="Email *" />
+
+    <EditText
+        android:id="@+id/edtTxtName"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edtTxtEmail"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Nombre" />
+
+    <EditText
+        android:id="@+id/edtTxtSurame"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edtTxtName"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Apellido" />
+
+    <EditText
+        android:id="@+id/edtTxtDNI"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edtTxtSurame"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="DNI *" />
+
+    <EditText
+        android:id="@+id/edtTxtPhone"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edtTxtDNI"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="Teléfono" />
+
+    <RadioButton
+        android:id="@+id/rdButton1"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+        android:layout_below="@id/edtTxtPhone"
+        android:layout_marginTop="20dp"
+        android:text="Casado" />
+
+    <RadioButton
+        android:id="@+id/rdButton2"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rdButton1"
+        android:layout_marginTop="10dp"
+        android:text="Soltero" />
+
+    <EditText
+        android:id="@+id/edtTxtPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rdButton2"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Contraseña *" />
+
+      <EditText
+      android:id="@+id/edtTxtReassword"
+      android:layout_centerHorizontal="true"
+      android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+      android:layout_below="@id/edtTxtPassword"
+      android:layout_marginTop="10dp"
+      android:ems="10"
+      android:inputType="textPassword"
+      android:hint="Repetir Contraseña *" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/edtTxtReassword"
+        android:layout_marginTop="20dp"
+        android:text="Registrar" />
+
+</RelativeLayout>
