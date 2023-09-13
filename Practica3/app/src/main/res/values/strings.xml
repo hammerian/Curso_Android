@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Practica3</string>
+    <string name="rgstrTxt">REGISTRO</string>
+    <string name="email">Email *</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="dni">DNI *</string>
+    <string name="tel_fono">Teléfono</string>
+    <string name="password">Contraseña *</string>
+    <string name="no_tienes_cuenta_reg_strate">¿No tienes cuenta? ¡Regístrate!</string>
+    <string name="login">Login</string>
+    <string name="perfil_usuario">Perfil usuario</string>
+</resources>
