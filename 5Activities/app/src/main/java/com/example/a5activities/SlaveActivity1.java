@@ -10,12 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class SlaveActivity1 extends AppCompatActivity {
 
-  //public NewUser myUser(){};
+    public NewUser ttr = new NewUser();
     private EditText edtTxtEmail;
     private EditText edtTxtName;
     private EditText edtTxtSurame;
@@ -25,9 +26,10 @@ public class SlaveActivity1 extends AppCompatActivity {
     private EditText edtTxtReassword;
     private Button btnRegister;
 
-    private String userName, userSurname, userEmail, userDni, userPassword, userReassword, tmpPhone;
+    private String userName, userSurname, userEmail, userDni, userPassword, userReassword, tmpPhone, tmpStatus;
     private int userPhone;
 
+    private RadioGroup rdGr1;
     private RadioButton rdButton1, rdButton2;
 
     @Override
@@ -42,6 +44,9 @@ public class SlaveActivity1 extends AppCompatActivity {
         edtTxtPhone = (EditText) findViewById(R.id.edtTxtPhone);
         edtTxtPassword = (EditText) findViewById(R.id.edtTxtPassword);
         edtTxtReassword = (EditText) findViewById(R.id.edtTxtReassword);
+        rdButton1 = (RadioButton) findViewById(R.id.rdButton1);
+        rdButton1 = (RadioButton) findViewById(R.id.rdButton1);
+        rdGr1 = (RadioGroup) findViewById(R.id.Lly1);
 
         btnRegister = (Button) findViewById(R.id.btnRegister);
 
@@ -54,6 +59,12 @@ public class SlaveActivity1 extends AppCompatActivity {
                 userDni = edtTxtDNI.getText().toString().trim();
                 userPassword = edtTxtPassword.getText().toString().trim();
                 userReassword = edtTxtReassword.getText().toString().trim();
+
+                int selectId = rdGr1.getCheckedRadioButtonId();
+
+                RadioButton tmpRB = rdGr1.findViewById(selectId);
+                tmpStatus = tmpRB.getText().toString();
+
                 if (edtTxtPhone.getText().length() == 0) {
                     tmpPhone ="0";
                 } else {

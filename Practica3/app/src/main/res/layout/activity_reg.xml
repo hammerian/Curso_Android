@@ -71,8 +71,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/tel_fono"
-        android:inputType="text" />
-        <!-- android:inputType="number" -->
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/edtTxtPassword"
@@ -93,7 +92,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="Repetir Contraseña *"
+        android:hint="@string/repeat_Password"
         android:inputType="textPassword" />
 
     <Button
@@ -103,6 +102,6 @@
         android:layout_below="@id/edtTxtReassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Registrar" />
+        android:text="@string/registrar" />
 
 </RelativeLayout>

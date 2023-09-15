@@ -72,15 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Boolean validateLogin (){
 
-     // https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext
-        String emailPattern = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-     // String emailPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
-
         if (userEmail.isEmpty()) {
             Toast.makeText(MainActivity.this, "El campo Email es obligatorio", Toast.LENGTH_SHORT).show();
-        } else if (userEmail.matches(emailPattern)) { // TODO: No funciona ninguno de los métodos
-     // https://duckduckgo.com/?q=android+validate+email+field&t=ftsa&atb=v238-1&ia=web
-     // } else if (android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
+        } else if (!validateEmail(userEmail)) {
             Toast.makeText(MainActivity.this, "El texto introducido no es un Email válido", Toast.LENGTH_SHORT).show();
         } else if (userPassword.length() < 8) {
             Toast.makeText(MainActivity.this, "El campo Contraseña es obligatorio y mínimo de 8 caracteres", Toast.LENGTH_SHORT).show();
@@ -91,5 +85,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    private Boolean validateEmail (String email) {
+         return android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches();
     }
 }

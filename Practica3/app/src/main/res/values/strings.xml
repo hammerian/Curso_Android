@@ -10,4 +10,6 @@
     <string name="no_tienes_cuenta_reg_strate">¿No tienes cuenta? ¡Regístrate!</string>
     <string name="login">Login</string>
     <string name="perfil_usuario">Perfil usuario</string>
+    <string name="repeat_Password">Repetir Contraseña *</string>
+    <string name="registrar">Registrar</string>
 </resources>
