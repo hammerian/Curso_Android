@@ -63,12 +63,9 @@ public class RegActivity extends AppCompatActivity {
         userDNI = edtTxtDNI.getText().toString().trim();
         userPhone = edtTxtPhone.getText().toString().trim();
 
-        // https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext
-        String emailPattern = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-
         if (userEmail.isEmpty()) {
             Toast.makeText(RegActivity.this, "El campo Email es obligatorio", Toast.LENGTH_SHORT).show();
-        } else if (userEmail.matches(emailPattern)) {
+        } else if (!validateEmail(userEmail)) {
             Toast.makeText(RegActivity.this, "El texto introducido no es un Email válido", Toast.LENGTH_SHORT).show();
         } else if (userName.isEmpty()) {
             Toast.makeText(RegActivity.this, "El campo Nombre es obligatorio", Toast.LENGTH_SHORT).show();
@@ -136,6 +133,10 @@ public class RegActivity extends AppCompatActivity {
             return false; //Error no es numerico
         }
         return true; //Es numerico
+    }
+
+    public Boolean validateEmail (String email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches();
     }
 
 }

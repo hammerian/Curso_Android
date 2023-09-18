@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
+ 
         txtRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private Boolean validateEmail (String email) {
+    public Boolean validateEmail (String email) {
          return android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches();
     }
 }

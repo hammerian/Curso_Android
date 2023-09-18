@@ -7,12 +7,182 @@
     tools:context=".SlaveActivity4">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtView1"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ESTA ES LA PANTALLA 4"
+        android:text="COMPRA LA CENA"
         android:textSize="20dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txtView1"
+        android:layout_marginTop="25dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="fill_horizontal"
+            android:orientation="horizontal">
+            <!-- -->
+            <ImageView
+                android:id="@+id/imgView7"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/pizza" />
+            <CheckBox
+                android:id="@+id/chckBox1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Pizza" />
+            <TextView
+                android:id="@+id/txtPrice1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:text="20€"
+                android:textSize="20dp"/>
+        </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/rdBurguer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rdButton1"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:enabled="false"
+                    android:checked="false"
+                    android:text="Pizza Mediterranea + 2€" />
+
+                <RadioButton
+                    android:id="@+id/rdButton2"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:enabled="false"
+                    android:checked="false"
+                    android:text="Pizza 3 Quesos + 5€" />
+
+                <RadioButton
+                    android:id="@+id/rdButton3"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:enabled="false"
+                    android:checked="false"
+                    android:text="Pizza Embutidos + 8€" />
+
+            </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="fill_horizontal"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/imgView3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/burguer" />
+            <CheckBox
+                android:id="@+id/chckBox2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Hamburguesa" />
+
+            <TextView
+                android:id="@+id/txtPrice2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:text="15€"
+                android:textSize="20dp"/>
+        </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/rdPizza"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rdButton4"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:enabled="false"
+                    android:checked="false"
+                    android:text="Barbacoa + 2€" />
+
+                <RadioButton
+                    android:id="@+id/rdButton5"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:enabled="false"
+                    android:checked="false"
+                    android:text="Pollo + 4€" />
+
+                <RadioButton
+                    android:id="@+id/rdButton6"
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill_horizontal"
+                    android:enabled="false"
+                    android:checked="false"
+                    android:text="Vegana + 7 €" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="horizontal">
+
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cubiertos + 1€" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnBill"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/edtTxtReassword"
+                android:layout_gravity="center"
+                android:text="Pedir" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 </RelativeLayout>
