@@ -7,12 +7,43 @@
     tools:context=".SlaveActivity5">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtView1"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ESTA ES LA PANTALLA 5"
+        android:layout_marginTop="20dp"
+        android:text="Compositores de música"
+        android:textSize="20dp"/>
+
+    <ToggleButton
+        android:id="@+id/tgglBtn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/txtView1"
+        android:layout_centerHorizontal="true"
+        android:text="ToggleButton"
+        android:textOff="Clásica"
+        android:textOn="B.S.O."/>
+
+    <Spinner
+        android:id="@+id/spnr1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/tgglBtn1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/txtView2"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text=""
+        android:layout_below="@+id/spnr1"
         android:textSize="20dp"/>
 
 </RelativeLayout>
