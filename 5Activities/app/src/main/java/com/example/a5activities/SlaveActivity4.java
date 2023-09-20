@@ -2,8 +2,11 @@ package com.example.a5activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,12 +18,13 @@ import android.widget.Toast;
 
 public class SlaveActivity4 extends AppCompatActivity {
 
-    private Button btnBillingr;
+    private Button btnBillingr, btnReservation;
     private Switch swKnife;
     private CheckBox chckBox1, chckBox2;
     private RadioGroup rdPizza, rdBurguer;
     private RadioButton rdButton1, rdButton2, rdButton3, rdButton4, rdButton5, rdButton6;
 
+    //SharedPreferences prefs = this.getSharedPreferences( "com.example.app", Context.MODE_PRIVATE);
     private String dinerPrice, dinerMeals;
 
     @Override
@@ -29,6 +33,7 @@ public class SlaveActivity4 extends AppCompatActivity {
         setContentView(R.layout.activity_slave4);
 
         btnBillingr = (Button) findViewById(R.id.btnBill);
+        btnReservation = (Button) findViewById(R.id.btnReservation);
         swKnife = (Switch) findViewById(R.id.switch1);
         chckBox1 = (CheckBox) findViewById(R.id.chckBox1);
         chckBox2 = (CheckBox) findViewById(R.id.chckBox2);
@@ -41,48 +46,7 @@ public class SlaveActivity4 extends AppCompatActivity {
         rdButton5 = (RadioButton) findViewById(R.id.rdButton5);
         rdButton6 = (RadioButton) findViewById(R.id.rdButton6);
 
-     /* rdButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chckBox1.setChecked(true);
-                chckBox2.setChecked(false);
-            }
-        });
-        rdButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chckBox1.setChecked(true);
-                chckBox2.setChecked(false);
-            }
-        });
-        rdButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chckBox1.setChecked(true);
-                chckBox2.setChecked(false);
-            }
-        });
-        rdButton4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chckBox1.setChecked(false);
-                chckBox2.setChecked(true);
-            }
-        });
-        rdButton5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chckBox1.setChecked(false);
-                chckBox2.setChecked(true);
-            }
-        });
-        rdButton6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chckBox1.setChecked(false);
-                chckBox2.setChecked(true);
-            }
-        });*/
+
         chckBox1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,39 +110,7 @@ public class SlaveActivity4 extends AppCompatActivity {
                 if ((!chckBox1.isChecked()) && (!chckBox2.isChecked())) {
                     Toast.makeText(SlaveActivity4.this, "¡Selecciona un menú!", Toast.LENGTH_SHORT).show();
                 } else {
-                    int price = 0;
-                    if (swKnife.isChecked()) {
-                        price = 1;
-                    }
-
-                    if (chckBox1.isChecked()) {
-                        dinerMeals = "Pizza";
-                        price = price + 20;
-                        if (rdButton1.isChecked()) {
-                            dinerMeals = "Pizza Mediterranea";
-                            price = price + 2;
-                        } else if (rdButton2.isChecked()) {
-                            dinerMeals = "Pizza 3 Quesos";
-                            price = price + 5;
-                        } else if (rdButton3.isChecked()) {
-                            dinerMeals = "Pizza Embutidos";
-                            price = price + 8;
-                        }
-                    } else if (chckBox2.isChecked()) {
-                        dinerMeals = "Hamburguesa";
-                        price = price + 15;
-                        if (rdButton4.isChecked()) {
-                            dinerMeals = "Hamburguesa Barbacoa";
-                            price = price + 2;
-                        } else if (rdButton5.isChecked()) {
-                            dinerMeals = "Hamburguesa de Pollo";
-                            price = price + 4;
-                        } else if (rdButton6.isChecked()) {
-                            dinerMeals = "Hamburguesa Vegana";
-                            price = price + 7;
-                        }
-                    }
-                    dinerPrice = price + "€";
+                    calculateTotal();
 
                     Intent itn = new Intent(SlaveActivity4.this, SlaveActivity2.class);
                     itn.putExtra("name", dinerMeals);
@@ -188,6 +120,64 @@ public class SlaveActivity4 extends AppCompatActivity {
             }
         });
 
+        btnReservation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ((!chckBox1.isChecked()) && (!chckBox2.isChecked())) {
+                    Toast.makeText(SlaveActivity4.this, "¡Selecciona un menú!", Toast.LENGTH_SHORT).show();
+                } else {
+                    calculateTotal();
 
+                    saveData();
+
+                    Intent itn = new Intent(SlaveActivity4.this, PreferencesActivity1.class);
+                    startActivity(itn);
+                }
+            }
+
+            private void saveData() {
+                SharedPreferences preferences = getSharedPreferences("AUTHENTICATION_FILE_NAME", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("dinerMeals",dinerMeals);
+                editor.putString("dinerPrice",dinerPrice);
+                editor.apply();
+            }
+        });
+    }
+
+    private void calculateTotal() {
+        int price = 0;
+        if (swKnife.isChecked()) {
+            price = 1;
+        }
+
+        if (chckBox1.isChecked()) {
+            dinerMeals = "Pizza";
+            price = price + 20;
+            if (rdButton1.isChecked()) {
+                dinerMeals = "Pizza Mediterranea";
+                price = price + 2;
+            } else if (rdButton2.isChecked()) {
+                dinerMeals = "Pizza 3 Quesos";
+                price = price + 5;
+            } else if (rdButton3.isChecked()) {
+                dinerMeals = "Pizza Embutidos";
+                price = price + 8;
+            }
+        } else if (chckBox2.isChecked()) {
+            dinerMeals = "Hamburguesa";
+            price = price + 15;
+            if (rdButton4.isChecked()) {
+                dinerMeals = "Hamburguesa Barbacoa";
+                price = price + 2;
+            } else if (rdButton5.isChecked()) {
+                dinerMeals = "Hamburguesa de Pollo";
+                price = price + 4;
+            } else if (rdButton6.isChecked()) {
+                dinerMeals = "Hamburguesa Vegana";
+                price = price + 7;
+            }
+        }
+        dinerPrice = price + "€";
     }
 }

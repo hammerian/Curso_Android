@@ -177,7 +177,16 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/edtTxtReassword"
                 android:layout_gravity="center"
-                android:text="Pedir" />
+                android:text="@string/pedir" />
+
+            <Button
+                android:id="@+id/btnReservation"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnBill"
+                android:layout_gravity="center"
+                android:text="@string/reservar" />
 
 
         </LinearLayout>

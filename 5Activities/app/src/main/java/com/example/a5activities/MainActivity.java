@@ -9,8 +9,8 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btn1, btn2, btn3, btn4, btn5;
-    @Override
+    private Button btn1, btn2, btn3, btn4, btn5, btn6;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         btn3 = (Button) findViewById(R.id.button3);
         btn4 = (Button) findViewById(R.id.button4);
         btn5 = (Button) findViewById(R.id.button5);
+        btn6 = (Button) findViewById(R.id.button6);
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +59,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent int5 = new Intent(MainActivity.this, SlaveActivity5.class);
                 startActivity(int5);
+            }
+        });
+
+        btn6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent int6 = new Intent(MainActivity.this, PreferencesActivity1.class);
+                startActivity(int6);
             }
         });
 

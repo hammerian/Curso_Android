@@ -7,4 +7,6 @@
     <string name="phone">Teléfono</string>
     <string name="Name">Nombre</string>
     <string name="email">Email</string>
+    <string name="pedir">Pedir</string>
+    <string name="reservar">Reservar</string>
 </resources>
