@@ -11,21 +11,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SlaveActivity4 extends AppCompatActivity {
 
     private Button btnBillingr, btnReservation;
     private Switch swKnife;
+    private EditText txtView3;
     private CheckBox chckBox1, chckBox2;
     private RadioGroup rdPizza, rdBurguer;
     private RadioButton rdButton1, rdButton2, rdButton3, rdButton4, rdButton5, rdButton6;
 
     //SharedPreferences prefs = this.getSharedPreferences( "com.example.app", Context.MODE_PRIVATE);
-    private String dinerPrice, dinerMeals;
+    private String dinerPrice, dinerMeals, direction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class SlaveActivity4 extends AppCompatActivity {
 
         btnBillingr = (Button) findViewById(R.id.btnBill);
         btnReservation = (Button) findViewById(R.id.btnReservation);
+        txtView3 = (EditText) findViewById(R.id.txtView3);
         swKnife = (Switch) findViewById(R.id.switch1);
         chckBox1 = (CheckBox) findViewById(R.id.chckBox1);
         chckBox2 = (CheckBox) findViewById(R.id.chckBox2);
@@ -109,12 +113,16 @@ public class SlaveActivity4 extends AppCompatActivity {
             public void onClick(View view) {
                 if ((!chckBox1.isChecked()) && (!chckBox2.isChecked())) {
                     Toast.makeText(SlaveActivity4.this, "¡Selecciona un menú!", Toast.LENGTH_SHORT).show();
+                } else if (txtView3.getText().toString().isEmpty()) {
+                    Toast.makeText(SlaveActivity4.this, "¡Indica una dirección!", Toast.LENGTH_SHORT).show();
                 } else {
                     calculateTotal();
 
                     Intent itn = new Intent(SlaveActivity4.this, SlaveActivity2.class);
                     itn.putExtra("name", dinerMeals);
                     itn.putExtra("surn", dinerPrice);
+                    itn.putExtra("direction", direction);
+                    itn.putExtra("mode", "4");
                     startActivity(itn);
                 }
             }
@@ -125,6 +133,8 @@ public class SlaveActivity4 extends AppCompatActivity {
             public void onClick(View view) {
                 if ((!chckBox1.isChecked()) && (!chckBox2.isChecked())) {
                     Toast.makeText(SlaveActivity4.this, "¡Selecciona un menú!", Toast.LENGTH_SHORT).show();
+                } else if (txtView3.getText().toString().isEmpty()) {
+                    Toast.makeText(SlaveActivity4.this, "¡Indica una dirección!", Toast.LENGTH_SHORT).show();
                 } else {
                     calculateTotal();
 
@@ -135,14 +145,16 @@ public class SlaveActivity4 extends AppCompatActivity {
                 }
             }
 
-            private void saveData() {
-                SharedPreferences preferences = getSharedPreferences("AUTHENTICATION_FILE_NAME", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("dinerMeals",dinerMeals);
-                editor.putString("dinerPrice",dinerPrice);
-                editor.apply();
-            }
         });
+    }
+
+    private void saveData() {
+        SharedPreferences preferences = getSharedPreferences("AUTHENTICATION_FILE_NAME", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("dinerMeals",dinerMeals);
+        editor.putString("dinerPrice",dinerPrice);
+        editor.putString("direction", direction);
+        editor.apply();
     }
 
     private void calculateTotal() {
@@ -152,7 +164,7 @@ public class SlaveActivity4 extends AppCompatActivity {
         }
 
         if (chckBox1.isChecked()) {
-            dinerMeals = "Pizza";
+            dinerMeals = getString(R.string.pizza);
             price = price + 20;
             if (rdButton1.isChecked()) {
                 dinerMeals = "Pizza Mediterranea";
@@ -165,7 +177,7 @@ public class SlaveActivity4 extends AppCompatActivity {
                 price = price + 8;
             }
         } else if (chckBox2.isChecked()) {
-            dinerMeals = "Hamburguesa";
+            dinerMeals = getString(R.string.hamburguesa);
             price = price + 15;
             if (rdButton4.isChecked()) {
                 dinerMeals = "Hamburguesa Barbacoa";
@@ -179,5 +191,6 @@ public class SlaveActivity4 extends AppCompatActivity {
             }
         }
         dinerPrice = price + "€";
+        direction = txtView3.getText().toString().trim();
     }
 }

@@ -35,4 +35,15 @@
         android:text="Apellido"
         android:textSize="20dp"/>
 
+    <Button
+        android:id="@+id/btnReservation"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtView2"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:text="@string/pedir" />
+
 </RelativeLayout>

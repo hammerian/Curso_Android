@@ -2,7 +2,9 @@ package com.example.a5activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
         btn4 = (Button) findViewById(R.id.button4);
         btn5 = (Button) findViewById(R.id.button5);
         btn6 = (Button) findViewById(R.id.button6);
+
+        SharedPreferences preferences = getSharedPreferences("AUTHENTICATION_FILE_NAME", 0);
+        preferences.edit().clear().commit();
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override

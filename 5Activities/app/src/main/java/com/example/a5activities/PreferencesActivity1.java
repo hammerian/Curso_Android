@@ -22,9 +22,10 @@ public class PreferencesActivity1 extends AppCompatActivity {
         SharedPreferences prfs = getSharedPreferences("AUTHENTICATION_FILE_NAME", Context.MODE_PRIVATE);
         String dinerMeals = prfs.getString("dinerMeals", "");
         String dinerPrice = prfs.getString("dinerPrice", "");
+        String direction = prfs.getString("direction", "");
 
-        edtTxtProduct.setText(dinerMeals);
-        edtTxtPrice.setText(dinerPrice);
+        edtTxtProduct.setText(dinerMeals + " " + dinerPrice);
+        edtTxtPrice.setText(direction);
     }
 ;
 }

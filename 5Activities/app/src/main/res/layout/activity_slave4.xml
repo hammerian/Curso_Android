@@ -170,14 +170,23 @@
                     android:text="Cubiertos + 1€" />
             </LinearLayout>
 
+            <EditText
+                android:id="@+id/txtView3"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="Dirección" />
+
             <Button
                 android:id="@+id/btnBill"
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/edtTxtReassword"
+                android:layout_below="@id/txtView3"
                 android:layout_gravity="center"
-                android:text="@string/pedir" />
+                android:text="@string/reservar" />
 
             <Button
                 android:id="@+id/btnReservation"
@@ -186,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btnBill"
                 android:layout_gravity="center"
-                android:text="@string/reservar" />
+                android:text="@string/pedir" />
 
 
         </LinearLayout>
