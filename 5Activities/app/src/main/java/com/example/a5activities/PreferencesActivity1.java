@@ -23,9 +23,11 @@ public class PreferencesActivity1 extends AppCompatActivity {
         String dinerMeals = prfs.getString("dinerMeals", "");
         String dinerPrice = prfs.getString("dinerPrice", "");
         String direction = prfs.getString("direction", "");
+        float myFloat = prfs.getFloat("111", 1f);
 
         edtTxtProduct.setText(dinerMeals + " " + dinerPrice);
         edtTxtPrice.setText(direction);
+        edtTxtPrice.setText(""+ myFloat);
     }
 ;
 }

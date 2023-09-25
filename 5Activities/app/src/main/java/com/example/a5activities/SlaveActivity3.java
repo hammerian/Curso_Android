@@ -24,7 +24,7 @@ public class SlaveActivity3 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder alrtDlgBldr = new AlertDialog.Builder(SlaveActivity3.this);
+             /* AlertDialog.Builder alrtDlgBldr = new AlertDialog.Builder(SlaveActivity3.this);
 
                 alrtDlgBldr.setTitle("¡PRECAUCIÓN!");
                 alrtDlgBldr.setMessage("¿Estás seguro que quieres quedarte sin dispositivo?");
@@ -47,7 +47,13 @@ public class SlaveActivity3 extends AppCompatActivity {
                 });
 
                 AlertDialog alrt = alrtDlgBldr.create();
-                alrt.show();
+                alrt.show(); */
+
+             /* CustomDialogClass cdd=new CustomDialogClass(SlaveActivity3.this);
+                cdd.show(); */
+
+
+
 
             }
 
