@@ -68,11 +68,6 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
 
     }
 
-    private fun spanLayoutSize(layoutParams: RecyclerView.LayoutParams): RecyclerView.LayoutParams {
-        layoutParams.height = if (some_condition) x else y
-        return layoutParams
-    }
-
     @Override
     public int getItemCount() {
         return this.listData.length;

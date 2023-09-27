@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MyListData[] newListData = new MyListData[6];
+        MyListData[] newListData = new MyListData[12];
 
         newListData[0] = new MyListData( "Primero", "Saltar", R.drawable.img1);
         newListData[1] = new MyListData( "Segundo", "Agacharse", R.drawable.img2);
@@ -21,6 +21,13 @@ public class MainActivity extends AppCompatActivity {
         newListData[3] = new MyListData( "Cuarto", "Sentadillas", R.drawable.img4);
         newListData[4] = new MyListData( "Quinto", "Bracear", R.drawable.img5);
         newListData[5] = new MyListData( "Sexto", "Rodar", R.drawable.img6);
+
+        newListData[6] = new MyListData( "Primero", "Saltar", R.drawable.img1);
+        newListData[7] = new MyListData( "Segundo", "Agacharse", R.drawable.img2);
+        newListData[8] = new MyListData( "Tercer", "Correr", R.drawable.img3);
+        newListData[9] = new MyListData( "Cuarto", "Sentadillas", R.drawable.img4);
+        newListData[10] = new MyListData( "Quinto", "Bracear", R.drawable.img5);
+        newListData[11] = new MyListData( "Sexto", "Rodar", R.drawable.img6);
 
         RecyclerView rcView = (RecyclerView) findViewById(R.id.rclview);
         rcView.setLayoutManager(new LinearLayoutManager(this));
