@@ -11,4 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#ddCCCCAA"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="25dp"
+        android:layout_alignRight="@id/rclview"
+        android:layout_alignBottom="@id/rclview"
+        android:text="Añadir" />
+
 </RelativeLayout>

@@ -1,8 +1,11 @@
 package com.example.popup;
 
+import static android.graphics.BlendMode.HARD_LIGHT;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true;
+        boolean focusable = false;
 
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
@@ -48,6 +51,18 @@ public class MainActivity extends AppCompatActivity {
 
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent itn = new Intent(MainActivity.this, MainActivity2.class);
+                startActivity(itn);
+
+            }
+        });
+
+     // popupView.
+
+        popupView.setFadingEdgeLength(35);
         // dismiss the popup window when touched
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
