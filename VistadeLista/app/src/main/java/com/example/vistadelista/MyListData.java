@@ -1,5 +1,7 @@
 package com.example.vistadelista;
 
+import android.net.Uri;
+
 public class MyListData {
 
     private String value1;
@@ -7,12 +9,28 @@ public class MyListData {
     private String value3;
 
     private int imageValue;
+    private Uri foto;
 
     public MyListData(String vlue1, String vlue2, String vlue3, int imgValue) {
         value1 = vlue1;
         value2 = vlue2;
         value3 = vlue3;
         imageValue = imgValue;
+    }
+
+    public MyListData(String value1, String value2, String value3, Uri foto) {
+        this.value1 = value1;
+        this.value2 = value2;
+        this.value3 = value3;
+        this.foto = foto;
+    }
+
+    public Uri getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Uri foto) {
+        this.foto = foto;
     }
 
     public String getValue1() {

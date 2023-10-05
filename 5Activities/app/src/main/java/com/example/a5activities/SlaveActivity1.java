@@ -111,4 +111,8 @@ public class SlaveActivity1 extends AppCompatActivity {
         });
 
     }
+
+    private void showAlert() {
+
+    }
 }
