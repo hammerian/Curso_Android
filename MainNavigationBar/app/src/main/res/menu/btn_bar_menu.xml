@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/Inicio"
+        android:title="menu"
+        android:icon="@drawable/baseline_home_work_24"
+        />
+
+    <item android:id="@+id/Perfil"
+        android:title="Perfil"
+        android:icon="@drawable/baseline_admin_panel_settings_24"
+        />
+
+    <item android:id="@+id/Contenido"
+        android:title="Contenido"
+        android:icon="@drawable/baseline_hive_24"
+        />
+
+    <item android:id="@+id/Compras"
+        android:title="Compras"
+        android:icon="@drawable/baseline_microwave_24"
+        />
+
+</menu>
