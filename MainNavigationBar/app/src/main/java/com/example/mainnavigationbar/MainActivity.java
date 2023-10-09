@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
         myBtnNavView = findViewById(R.id.bnavbar1);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frmLyt ,myHomeFrg).commit();
+
+
+        BadgeDrawable badgeDrawable = myBtnNavView.getOrCreateBadge(R.id.Inicio);
+        badgeDrawable.setVisible(true);
+        badgeDrawable.setNumber(4);
 
         myBtnNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
