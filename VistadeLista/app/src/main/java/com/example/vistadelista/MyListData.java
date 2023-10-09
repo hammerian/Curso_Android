@@ -1,5 +1,6 @@
 package com.example.vistadelista;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 public class MyListData {
@@ -10,6 +11,7 @@ public class MyListData {
 
     private int imageValue;
     private Uri foto;
+    private Bitmap imagen;
 
     public MyListData(String vlue1, String vlue2, String vlue3, int imgValue) {
         value1 = vlue1;
@@ -23,6 +25,21 @@ public class MyListData {
         this.value2 = value2;
         this.value3 = value3;
         this.foto = foto;
+    }
+
+    public MyListData(String value1, String value2, String value3, Bitmap imagen) {
+        this.value1 = value1;
+        this.value2 = value2;
+        this.value3 = value3;
+        this.imagen = imagen;
+    }
+
+    public Bitmap getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Bitmap imagen) {
+        this.imagen = imagen;
     }
 
     public Uri getFoto() {
