@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/txtV1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="¡Viva Firebase!" />
+
+    <EditText
+        android:id="@+id/edtTxt1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/txtV1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Email" />
+
+    <EditText
+        android:id="@+id/edtTxt2"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/edtTxt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Contraseña" />
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/edtTxt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/entrar" />
+
+    <TextView
+        android:id="@+id/txtV2"
+        android:layout_below="@+id/btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="15dp"
+        android:text="¡Registrate!" />
+
+</RelativeLayout>

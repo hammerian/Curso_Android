@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "190520259750",
+    "project_id": "cutrerecetas",
+    "storage_bucket": "cutrerecetas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190520259750:android:2810f039d3ddca3afbf067",
+        "android_client_info": {
+          "package_name": "com.example.firebaseproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG0nkYPYLVR6paxvw5jpmDUejc74IpM3Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
