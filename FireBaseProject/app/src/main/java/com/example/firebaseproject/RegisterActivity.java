@@ -25,6 +25,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText edtTxt4;
     private EditText edtTxt5;
 
+    private MyUser regUser;
+
     private DatabaseReference dbRef;
 
     private FirebaseUser fbUser;
@@ -63,7 +65,9 @@ public class RegisterActivity extends AppCompatActivity {
                             fbUser = mAuth.getCurrentUser();
                             String userUuid = fbUser.getUid();
 
-                            dbRef.child(userUuid).setValue("DatoAGuardar").addOnCompleteListener(new OnCompleteListener<Void>() {
+                            regUser = new MyUser(data1, data2);
+
+                            dbRef.child(userUuid).setValue(regUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {

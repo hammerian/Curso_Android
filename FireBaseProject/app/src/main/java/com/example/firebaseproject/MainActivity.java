@@ -16,12 +16,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseUser fbUser;
+
+    private DatabaseReference dbRef;
 
     private EditText edtTxt1;
     private EditText edtTxt2;
@@ -29,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtView2;
 
     private String data1, data2;
+    private MyUser logUser;
 
     private Button btn1;
 
@@ -63,7 +70,28 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "El Login se ha completado", Toast.LENGTH_SHORT).show();
+
+                            fbUser = mAuth.getCurrentUser();
+
+                            dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios").child(fbUser.getUid());
+
+                            dbRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                    logUser = snapshot.getValue(MyUser.class);
+                                    String name = logUser.getName();
+
+                                    Toast.makeText(MainActivity.this, "El Login se ha completado "+name, Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+
                         } else {
                             Toast.makeText(MainActivity.this, "El Login no se ha completado", Toast.LENGTH_SHORT).show();
                         }
