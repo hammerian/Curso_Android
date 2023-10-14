@@ -18,28 +18,81 @@
         android:id="@+id/edtTxt1"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/txtV1"
-        android:layout_width="wrap_content"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         android:hint="Email" />
 
-    <EditText
-        android:id="@+id/edtTxt2"
+    <LinearLayout
+        android:id="@+id/lnrLyt"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/edtTxt1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:hint="Contraseña" />
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edtTxt2"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="Contraseña" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/baseline_key_24" />
+
+
+        <!--
+        <Button
+            android:id="@+id/btn2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:text="Ø" /> -->
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/lnrLyt2"
+        android:layout_below="@+id/lnrLyt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_weight="0" />
+
+        <TextView
+            android:id="@+id/txtV3"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="¡Recupera tu contraseña!"
+            android:textAlignment="textEnd" />
+
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn1"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/edtTxt2"
+        android:layout_below="@+id/lnrLyt2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -54,5 +107,6 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="15dp"
         android:text="¡Registrate!" />
+
 
 </RelativeLayout>

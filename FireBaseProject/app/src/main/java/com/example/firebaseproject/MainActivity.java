@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,11 +35,14 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtTxt2;
 
     private TextView txtView2;
+    private TextView txtView3;
 
     private String data1, data2;
     private MyUser logUser;
 
     private Button btn1;
+    // private Button btn2;
+    private ImageButton imageButton2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,10 @@ public class MainActivity extends AppCompatActivity {
         edtTxt1 = findViewById(R.id.edtTxt1);
         edtTxt2 = findViewById(R.id.edtTxt2);
         txtView2 = findViewById(R.id.txtV2);
+        txtView3 = findViewById(R.id.txtV3);
         btn1 = findViewById(R.id.btn1);
+     // btn2 = findViewById(R.id.btn2);
+        imageButton2 = findViewById(R.id.imageButton2);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -55,6 +63,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent itn = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(itn);
+            }
+        });
+
+        txtView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itn = new Intent(MainActivity.this, MainActivity2.class);
+                if (!edtTxt1.toString().isEmpty()) {
+                    itn.putExtra("userData", edtTxt1.getText().toString().trim());
+                }
                 startActivity(itn);
             }
         });
@@ -97,6 +116,23 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+            }
+        });
+
+        imageButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edtTxt2.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+                 // imageButton2.setText("O");
+                    int id = getResources().getIdentifier("com.example.firebaseproject:drawable/" + "baseline_key_24", null, null);
+                    imageButton2.setImageResource(id);
+                    edtTxt2.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                } else {
+                 // imageButton2.setText("Ø");
+                    int id = getResources().getIdentifier("com.example.firebaseproject:drawable/" + "baseline_key_off_24", null, null);
+                    imageButton2.setImageResource(id);
+                    edtTxt2.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD); // TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                }
             }
         });
 
