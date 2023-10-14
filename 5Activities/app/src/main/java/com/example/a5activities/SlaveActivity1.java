@@ -1,7 +1,5 @@
 package com.example.a5activities;
 
-import static java.lang.Integer.parseInt;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class SlaveActivity1 extends AppCompatActivity {

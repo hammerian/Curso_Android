@@ -1,10 +1,9 @@
 package com.example.taskeando;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.view.Menu;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -15,13 +14,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.taskeando.databinding.ActivityMainBinding;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+
+    private DataWriter dtWrt;
 
     public ArrayList <String> categories;
 
@@ -32,12 +36,19 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        dtWrt = new DataWriter();
         categories = new ArrayList<String>();
         categories.add("Teoría");
         categories.add("Ejemplo");
         categories.add("Ejercicio");
         categories.add("Práctica");
 
+        SharedPreferences prefs = getSharedPreferences("AppName", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(categories);
+        editor.putString("categories", json);
+        editor.apply();
 
 
 

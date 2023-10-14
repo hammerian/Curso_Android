@@ -16,15 +16,13 @@ public class ConfigFragment extends Fragment {
 
     private FragmentConfigBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        ConfigViewModel galleryViewModel =
-                new ViewModelProvider(this).get(ConfigViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ConfigViewModel galleryViewModel = new ViewModelProvider(this).get(ConfigViewModel.class);
 
         binding = FragmentConfigBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textGallery;
+        final TextView textView = binding.textConfig;
         galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
