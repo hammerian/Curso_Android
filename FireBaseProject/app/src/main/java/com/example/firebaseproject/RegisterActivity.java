@@ -20,19 +20,19 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    // Variables de Firebase
     private FirebaseAuth mAuth;
+    private DatabaseReference dbRef;
+    private FirebaseUser fbUser;
+
+    // Variables de Objetos del Activity
     private EditText edtTxt3;
     private EditText edtTxt4;
     private EditText edtTxt5;
-
-    private MyUser regUser;
-
-    private DatabaseReference dbRef;
-
-    private FirebaseUser fbUser;
-
     private Button btn2;
 
+    // Variables de datos
+    private MyUser regUser;
     private String data1, data2, data3;
 
     @Override
@@ -40,44 +40,51 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        // Definición de Campos de texto y Botones
         edtTxt3 = findViewById(R.id.edtTxt3);
         edtTxt4 = findViewById(R.id.edtTxt4);
         edtTxt5 = findViewById(R.id.edtTxt5);
         btn2 = findViewById(R.id.btn2);
 
+        // Activación de Firebase
         mAuth = FirebaseAuth.getInstance();
-
+        // Recuperación de datos para Firebase Database
         dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios");
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                // guardamos los campos de texto para Login
                 data1 = edtTxt3.getText().toString().trim();
                 data2 = edtTxt4.getText().toString().trim();
                 data3 = edtTxt5.getText().toString().trim();
 
+                // Evento de Registro en Firebase de Google
                 mAuth.createUserWithEmailAndPassword(data2,data3).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
+                            // activa el usuario de Firebase
                             fbUser = mAuth.getCurrentUser();
+                            // consigue el id del usuario en Firebase
                             String userUuid = fbUser.getUid();
-
+                            // Crea un usuario desde nuestro POJO
                             regUser = new MyUser(data1, data2);
 
+                            // Evento de guardado del usuario recién creado en Firebase Database
                             dbRef.child(userUuid).setValue(regUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
 
                                     } else {
-                                        Toast.makeText(RegisterActivity.this, "El registro no se ha completado", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RegisterActivity.this, "El usuario no se ha guardado", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
-
+                            // Regresa a la pantalla anterior de Login
                             Intent itn = new Intent(RegisterActivity.this, MainActivity.class);
                             startActivity(itn);
                         } else {

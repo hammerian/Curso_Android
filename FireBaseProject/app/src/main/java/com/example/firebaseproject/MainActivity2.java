@@ -15,10 +15,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity2 extends AppCompatActivity {
 
-    String frgtMail;
+    // Variables de Objetos del Activity
     EditText edtPass;
     Button btnPass;
+    String frgtMail;
 
+    // Variables de datos
     private FirebaseAuth mAuth;
 
     @Override
@@ -26,23 +28,29 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+        // Definición de Campos de texto y Botones
         btnPass = (Button) findViewById(R.id.btnPass);
         edtPass = (EditText) findViewById(R.id.txtViewPass);
 
+        // Recupera el email de la pantalla anterior si se ha escrito
         Bundle extras = getIntent().getExtras();
         frgtMail = (String) extras.getSerializable("userData");
         edtPass.setText(frgtMail);
 
+        // Activación de Firebase
         mAuth = FirebaseAuth.getInstance();
 
-
+        // Acción de botón para activar el recuperar contraseña
         btnPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // Acción de recuperar contraseña en Firebase
                 mAuth.sendPasswordResetEmail(frgtMail).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            // Cierra la pantalla y regresa al anterior
                             finish();
                         } else {
                             Toast.makeText(MainActivity2.this, "La recuperación de contraseña no se ha completado", Toast.LENGTH_SHORT).show();

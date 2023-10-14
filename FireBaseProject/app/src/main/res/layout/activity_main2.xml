@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity2">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txtViewPass"
+        android:layout_marginBottom="30dp"
+        android:textAlignment="center"
+        android:text="Recupera tu contraseña\nEscribiendo tu email de registro" />
+
     <EditText
         android:id="@+id/txtViewPass"
         android:layout_width="wrap_content"
@@ -23,7 +33,8 @@
         android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Recuperar" />
+
 
 
 </RelativeLayout>
