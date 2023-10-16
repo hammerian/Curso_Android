@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,8 +30,8 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText edtTxt3;
     private EditText edtTxt4;
     private EditText edtTxt6;
-    private Button btn2;
-    private Button btn3;
+    private Button btnModf;
+    private Button btnSave;
 
     private MyUser regUser;
 
@@ -44,8 +46,8 @@ public class ProfileActivity extends AppCompatActivity {
         edtTxt3 = findViewById(R.id.edtTxt3);
         edtTxt4 = findViewById(R.id.edtTxt4);
         edtTxt6 = findViewById(R.id.edtTxt6);
-        btn2 = findViewById(R.id.btn2);
-        btn3 = findViewById(R.id.btn3);
+        btnModf = findViewById(R.id.btnModf);
+        btnSave = findViewById(R.id.btnSave);
 
         // Deshabilita los campos de texto y botones
         activateButtons(false);
@@ -59,33 +61,35 @@ public class ProfileActivity extends AppCompatActivity {
         // activa el usuario de Firebase
         fbUser = mAuth.getCurrentUser();
         // recupera de Firebase Database los datos del usuario de Firebase
-        dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios").child(fbUser.getUid());
+        dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios");
         reloadValues();
 
 
-        btn2.setOnClickListener(new View.OnClickListener() {
+        btnModf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activateButtons(true);
             }
         });
 
-        btn3.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activateButtons(false);
-                String uuid = fbUser.getUid();
-                dbRef.child(uuid).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        MyUser modUser = snapshot.getValue(MyUser.class);
-                     // modUser.setName();
 
-                    }
-
+                dataName = edtTxt2.getText().toString().toString();
+                dataSurname = edtTxt3.getText().toString().toString();
+                dataEmail = edtTxt4.getText().toString().toString();
+                dataPhone = edtTxt6.getText().toString().toString();
+                MyUser newUser = new MyUser(dataName,dataSurname,dataEmail,dataPhone);
+                dbRef.child(fbUser.getUid()).setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        // Si se cancela la operación
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()) {
+                            Toast.makeText(ProfileActivity.this, "El Usuario se ha actualizado", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(ProfileActivity.this, "Ha habido un error al actualizar el Usuario", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
@@ -96,7 +100,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void reloadValues() {
         // evento de completado de la operación de recuperar los datos del usuario
-        dbRef.addValueEventListener(new ValueEventListener() {
+        dbRef.child(fbUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -121,9 +125,9 @@ public class ProfileActivity extends AppCompatActivity {
         // Activar/Deactivar Campos de texto y botónes
         edtTxt2.setEnabled(act);
         edtTxt3.setEnabled(act);
-        edtTxt4.setEnabled(act);
+        edtTxt4.setEnabled(false);
         edtTxt6.setEnabled(act);
-        btn2.setEnabled(!act);
-        btn3.setEnabled(act);
+        btnModf.setEnabled(!act);
+        btnSave.setEnabled(act);
     }
 }

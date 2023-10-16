@@ -94,46 +94,50 @@ public class MainActivity extends AppCompatActivity {
                 data1 = edtTxt1.getText().toString().trim();
                 data2 = edtTxt2.getText().toString().trim();
 
-                // Evento de Login en Firebase de Google
-                mAuth.signInWithEmailAndPassword(data1,data2).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                if (data1.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Campos obligatorios", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Evento de Login en Firebase de Google
+                    mAuth.signInWithEmailAndPassword(data1, data2).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
 
-                            // activa el usuario de Firebase
-                            fbUser = mAuth.getCurrentUser();
+                                // activa el usuario de Firebase
+                                fbUser = mAuth.getCurrentUser();
 
-                            // recupera de Firebase Database los datos del usuario de Firebase
-                            dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios").child(fbUser.getUid());
+                                // recupera de Firebase Database los datos del usuario de Firebase
+                                dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios").child(fbUser.getUid());
 
-                            // evento de completado de la operación de recuperar los datos del usuario
-                            dbRef.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                // evento de completado de la operación de recuperar los datos del usuario
+                                dbRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                    // Recupera los datos del usuario en un POJO creado por nosotros
-                                    logUser = snapshot.getValue(MyUser.class);
-                                    String name = logUser.getName();
-                                    Toast.makeText(MainActivity.this, "El Login se ha completado "+name, Toast.LENGTH_SHORT).show();
+                                        // Recupera los datos del usuario en un POJO creado por nosotros
+                                        logUser = snapshot.getValue(MyUser.class);
+                                        String name = logUser.getName();
+                                        Toast.makeText(MainActivity.this, "El Login se ha completado " + name, Toast.LENGTH_SHORT).show();
 
-                                    Intent itn = new Intent(MainActivity.this, ProfileActivity.class);
-                                    // itn.putExtra("prfUser", logUser); // Envío de datos a otra pantalla (Deshabilitado)
-                                    startActivity(itn);
-                                }
+                                        Intent itn = new Intent(MainActivity.this, ProfileActivity.class);
+                                        // itn.putExtra("prfUser", logUser); // Envío de datos a otra pantalla (Deshabilitado)
+                                        startActivity(itn);
+                                    }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                    // Si se cancela la operación
-                                }
-                            });
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        // Si se cancela la operación
+                                    }
+                                });
 
 
-                        } else {
-                            // En caso de que nos de error el Login
-                            Toast.makeText(MainActivity.this, "El Login no se ha completado", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // En caso de que nos de error el Login
+                                Toast.makeText(MainActivity.this, "El Login no se ha completado", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 
