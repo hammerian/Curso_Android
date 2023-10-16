@@ -3,6 +3,7 @@ package com.example.firebaseproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -33,9 +34,12 @@ public class ProfileActivity extends AppCompatActivity {
     private Button btnModf;
     private Button btnSave;
 
+    private ProgressDialog prgDlg;
+
     private MyUser regUser;
 
     private String dataName, dataSurname, dataEmail, dataPhone;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,8 @@ public class ProfileActivity extends AppCompatActivity {
         edtTxt6 = findViewById(R.id.edtTxt6);
         btnModf = findViewById(R.id.btnModf);
         btnSave = findViewById(R.id.btnSave);
+
+        prgDlg = new ProgressDialog(this);
 
         // Deshabilita los campos de texto y botones
         activateButtons(false);
@@ -77,14 +83,17 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 activateButtons(false);
 
-                dataName = edtTxt2.getText().toString().toString();
-                dataSurname = edtTxt3.getText().toString().toString();
-                dataEmail = edtTxt4.getText().toString().toString();
-                dataPhone = edtTxt6.getText().toString().toString();
+                prgDlg.setMessage("Guardando...");
+                prgDlg.show();
+                dataName = edtTxt2.getText().toString().trim();
+                dataSurname = edtTxt3.getText().toString().trim();
+                dataEmail = edtTxt4.getText().toString().trim();
+                dataPhone = edtTxt6.getText().toString().trim();
                 MyUser newUser = new MyUser(dataName,dataSurname,dataEmail,dataPhone);
                 dbRef.child(fbUser.getUid()).setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        prgDlg.dismiss();
                         if(task.isSuccessful()) {
                             Toast.makeText(ProfileActivity.this, "El Usuario se ha actualizado", Toast.LENGTH_SHORT).show();
                         } else {
