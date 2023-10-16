@@ -115,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
                                     logUser = snapshot.getValue(MyUser.class);
                                     String name = logUser.getName();
                                     Toast.makeText(MainActivity.this, "El Login se ha completado "+name, Toast.LENGTH_SHORT).show();
+
+                                    Intent itn = new Intent(MainActivity.this, ProfileActivity.class);
+                                    // itn.putExtra("prfUser", logUser); // Envío de datos a otra pantalla (Deshabilitado)
+                                    startActivity(itn);
                                 }
 
                                 @Override

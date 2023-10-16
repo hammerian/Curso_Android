@@ -26,14 +26,16 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseUser fbUser;
 
     // Variables de Objetos del Activity
+    private EditText edtTxt2;
     private EditText edtTxt3;
     private EditText edtTxt4;
     private EditText edtTxt5;
+    private EditText edtTxt6;
     private Button btn2;
 
     // Variables de datos
     private MyUser regUser;
-    private String data1, data2, data3;
+    private String dataName, dataSurname, dataEmail, dataPass, dataPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +43,11 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         // Definición de Campos de texto y Botones
+        edtTxt2 = findViewById(R.id.edtTxt2);
         edtTxt3 = findViewById(R.id.edtTxt3);
         edtTxt4 = findViewById(R.id.edtTxt4);
         edtTxt5 = findViewById(R.id.edtTxt5);
+        edtTxt6 = findViewById(R.id.edtTxt6);
         btn2 = findViewById(R.id.btn2);
 
         // Activación de Firebase
@@ -56,12 +60,14 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 // guardamos los campos de texto para Login
-                data1 = edtTxt3.getText().toString().trim();
-                data2 = edtTxt4.getText().toString().trim();
-                data3 = edtTxt5.getText().toString().trim();
+                dataName = edtTxt2.getText().toString().trim();
+                dataSurname = edtTxt3.getText().toString().trim();
+                dataEmail = edtTxt4.getText().toString().trim();
+                dataPass = edtTxt5.getText().toString().trim();
+                dataPhone = edtTxt6.getText().toString().trim();
 
                 // Evento de Registro en Firebase de Google
-                mAuth.createUserWithEmailAndPassword(data2,data3).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.createUserWithEmailAndPassword(dataEmail,dataPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -71,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // consigue el id del usuario en Firebase
                             String userUuid = fbUser.getUid();
                             // Crea un usuario desde nuestro POJO
-                            regUser = new MyUser(data1, data2);
+                            regUser = new MyUser(dataName, dataSurname, dataEmail, dataPhone);
 
                             // Evento de guardado del usuario recién creado en Firebase Database
                             dbRef.child(userUuid).setValue(regUser).addOnCompleteListener(new OnCompleteListener<Void>() {

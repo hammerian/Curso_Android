@@ -1,17 +1,22 @@
 package com.example.firebaseproject;
 
-public class MyUser {
+import java.io.Serializable;
+
+public class MyUser implements Serializable {
 
     private String name;
-
+    private String surname;
     private String email;
+    private String phone;
 
     public MyUser() {
     }
 
-    public MyUser(String name, String email) {
+    public MyUser(String name, String surname, String email, String phone) {
         this.name = name;
+        this.surname = surname;
         this.email = email;
+        this.phone = phone;
     }
 
     public String getName() {
@@ -28,5 +33,21 @@ public class MyUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
