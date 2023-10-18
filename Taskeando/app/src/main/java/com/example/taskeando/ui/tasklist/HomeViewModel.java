@@ -18,17 +18,10 @@ public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-
     public HomeViewModel() {
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Gson gson = new Gson();
-        String json = prefs.getString("categories", null);
-        Type type = new TypeToken<ArrayList<String>>() {}.getType();
-        ArrayList<String> newList = gson.fromJson(json, type);
-
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("Fragment Home\nPulsa el botón para ir al listado.");
 
     }
 

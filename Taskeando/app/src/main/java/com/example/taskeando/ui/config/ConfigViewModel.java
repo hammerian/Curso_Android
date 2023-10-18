@@ -13,7 +13,8 @@ public class ConfigViewModel extends ViewModel {
     public ConfigViewModel() {
 
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+        mText.setValue("Fragment Config\nApp Tareas.");
+
     }
 
     public LiveData<String> getText() {
