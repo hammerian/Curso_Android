@@ -106,30 +106,33 @@ public class MainActivity extends AppCompatActivity {
                                 // activa el usuario de Firebase
                                 fbUser = mAuth.getCurrentUser();
 
-                                // recupera de Firebase Database los datos del usuario de Firebase
-                                dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios").child(fbUser.getUid());
+                                if (fbUser != null) {
+                                    // recupera de Firebase Database los datos del usuario de Firebase
+                                    dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios").child(fbUser.getUid());
 
-                                // evento de completado de la operación de recuperar los datos del usuario
-                                dbRef.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    // evento de completado de la operación de recuperar los datos del usuario
+                                    dbRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                        // Recupera los datos del usuario en un POJO creado por nosotros
-                                        logUser = snapshot.getValue(MyUser.class);
-                                        String name = logUser.getName();
-                                        Toast.makeText(MainActivity.this, "El Login se ha completado " + name, Toast.LENGTH_SHORT).show();
+                                          if (dbRef!=null) {
+                                                // Recupera los datos del usuario en un POJO creado por nosotros
+                                                logUser = snapshot.getValue(MyUser.class);
+                                                String name = logUser.getName();
+                                                Toast.makeText(MainActivity.this, "El Login se ha completado " + name, Toast.LENGTH_SHORT).show();
 
-                                        Intent itn = new Intent(MainActivity.this, ProfileActivity.class);
-                                        // itn.putExtra("prfUser", logUser); // Envío de datos a otra pantalla (Deshabilitado)
-                                        startActivity(itn);
-                                    }
+                                                Intent itn = new Intent(MainActivity.this, ProfileActivity.class);
+                                                // itn.putExtra("prfUser", logUser); // Envío de datos a otra pantalla (Deshabilitado)
+                                                startActivity(itn);
+                                            }
+                                        }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-                                        // Si se cancela la operación
-                                    }
-                                });
-
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            // Si se cancela la operación
+                                        }
+                                    });
+                                }
 
                             } else {
                                 // En caso de que nos de error el Login

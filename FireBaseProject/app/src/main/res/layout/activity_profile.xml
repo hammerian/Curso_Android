@@ -81,6 +81,7 @@
         android:hint="Teléfono" />
 
     <LinearLayout
+        android:id="@+id/lnrLyt3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -103,5 +104,13 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btnConfig"
+        android:layout_below="@id/lnrLyt3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Configuración" />
 
 </RelativeLayout>

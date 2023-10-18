@@ -34,24 +34,33 @@ public class ProfileActivity extends AppCompatActivity {
     private Button btnModf;
     private Button btnSave;
 
+    private Button btnConfig;
+
     private ProgressDialog prgDlg;
 
     private MyUser regUser;
 
     private String dataName, dataSurname, dataEmail, dataPhone;
 
+    public void onStart() {
+        super.onStart();
+        if (fbUser == null){
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        edtTxt2 = findViewById(R.id.edtTxt2);
-        edtTxt3 = findViewById(R.id.edtTxt3);
-        edtTxt4 = findViewById(R.id.edtTxt4);
-        edtTxt6 = findViewById(R.id.edtTxt6);
-        btnModf = findViewById(R.id.btnModf);
-        btnSave = findViewById(R.id.btnSave);
+        edtTxt2 = (EditText) findViewById(R.id.edtTxt2);
+        edtTxt3 = (EditText) findViewById(R.id.edtTxt3);
+        edtTxt4 = (EditText) findViewById(R.id.edtTxt4);
+        edtTxt6 = (EditText) findViewById(R.id.edtTxt6);
+        btnModf = (Button) findViewById(R.id.btnModf);
+        btnSave = (Button) findViewById(R.id.btnSave);
+        btnConfig = (Button) findViewById(R.id.btnConfig);
 
         prgDlg = new ProgressDialog(this);
 
@@ -68,8 +77,10 @@ public class ProfileActivity extends AppCompatActivity {
         fbUser = mAuth.getCurrentUser();
         // recupera de Firebase Database los datos del usuario de Firebase
         dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios");
-        reloadValues();
 
+        if (fbUser != null) {
+            reloadValues();
+        }
 
         btnModf.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +116,14 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        btnConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itn = new Intent(ProfileActivity.this, ConfigActivity.class);
+                startActivity(itn);
+            }
+        });
+
     }
 
     private void reloadValues() {
@@ -115,12 +134,12 @@ public class ProfileActivity extends AppCompatActivity {
 
                 // Recupera los datos del usuario en un POJO creado por nosotros
                 regUser = snapshot.getValue(MyUser.class);
-
-                edtTxt2.setText(regUser.getName().toString());
-                edtTxt3.setText(regUser.getSurname().toString());
-                edtTxt4.setText(regUser.getEmail().toString());
-                edtTxt6.setText(regUser.getPhone().toString());
-
+                if (regUser != null) {
+                    edtTxt2.setText(regUser.getName().toString());
+                    edtTxt3.setText(regUser.getSurname().toString());
+                    edtTxt4.setText(regUser.getEmail().toString());
+                    edtTxt6.setText(regUser.getPhone().toString());
+                }
             }
 
             @Override

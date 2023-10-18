@@ -85,14 +85,15 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
 
+                                        // Regresa a la pantalla anterior de Login
+                                        Intent itn = new Intent(RegisterActivity.this, MainActivity.class);
+                                        startActivity(itn);
+
                                     } else {
                                         Toast.makeText(RegisterActivity.this, "El usuario no se ha guardado", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
-                            // Regresa a la pantalla anterior de Login
-                            Intent itn = new Intent(RegisterActivity.this, MainActivity.class);
-                            startActivity(itn);
                         } else {
                             Toast.makeText(RegisterActivity.this, "El registro no se ha completado", Toast.LENGTH_SHORT).show();
                         }
