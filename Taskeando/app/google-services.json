@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "432651091861",
+    "firebase_url": "https://taskeando-d40cc-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "taskeando-d40cc",
+    "storage_bucket": "taskeando-d40cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432651091861:android:7d5f2c5cbda4beea8ec09c",
+        "android_client_info": {
+          "package_name": "com.example.taskeando"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYZtSpbYyn7Q8eRX0npSTvduf78TKsTRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

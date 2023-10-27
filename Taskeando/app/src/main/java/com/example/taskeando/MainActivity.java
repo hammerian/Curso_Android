@@ -3,9 +3,11 @@ package com.example.taskeando;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -14,6 +16,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.taskeando.databinding.ActivityMainBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -27,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
     private DataWriter dtWrt;
 
-    public ArrayList <String> categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +42,17 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         dtWrt = new DataWriter();
-        categories = new ArrayList<String>();
+
+
+        /* new ArrayList<String>();
         categories.add("Teoría");
         categories.add("Ejemplo");
         categories.add("Ejercicio");
-        categories.add("Práctica");
+        categories.add("Práctica"); */
 
-        SharedPreferences prefs = getSharedPreferences("AppName", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(categories);
-        editor.putString("categories", json);
-        editor.apply();
+
 
 
 
