@@ -6,6 +6,11 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="nombre">Nombre</string>
+    <string name="desc">Descripción</string>
+    <string name="imagen">Imagen</string>
+    <string name="a_adir">Añadir</string>
+    <string name="new_task">Nueva Tarea</string>
     <string name="completada">Completada</string>
     <string name="menu_home">Tareas</string>
     <string name="menu_gallery">Configuración</string>

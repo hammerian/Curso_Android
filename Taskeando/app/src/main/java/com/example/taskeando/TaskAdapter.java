@@ -36,6 +36,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
+        if (taskitaData == null) {
+            return 0;
+        }
         return taskitaData.size();
     }
 

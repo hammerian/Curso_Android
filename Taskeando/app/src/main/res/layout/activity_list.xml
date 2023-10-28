@@ -25,4 +25,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <Button
+        android:id="@+id/btnRecipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="25dp"
+        android:layout_alignRight="@id/rccl1"
+        android:layout_alignBottom="@id/rccl1"
+        android:text="@string/a_adir" />
+
 </RelativeLayout>

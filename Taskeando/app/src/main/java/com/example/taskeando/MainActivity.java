@@ -1,13 +1,9 @@
 package com.example.taskeando;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,23 +12,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.taskeando.databinding.ActivityMainBinding;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-
-    private DataWriter dtWrt;
 
 
     @Override
@@ -42,19 +26,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        dtWrt = new DataWriter();
-
-
+        // Listado de Categorías
         /* new ArrayList<String>();
         categories.add("Teoría");
         categories.add("Ejemplo");
         categories.add("Ejercicio");
         categories.add("Práctica"); */
-
-
-
-
 
         setSupportActionBar(binding.appBarMain.toolbar);
      /* binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() { // Añade acción al botón de lateral derecho
