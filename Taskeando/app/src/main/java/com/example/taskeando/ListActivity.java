@@ -2,13 +2,19 @@ package com.example.taskeando;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -33,7 +39,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.net.URI;
 import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
@@ -95,6 +100,19 @@ public class ListActivity extends AppCompatActivity {
         rclTask.setHasFixedSize(false);
         //rcpAdapter.notifyDataSetChanged();
         // rclTask.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        setUpItemTouchHelper();
+
+        ValueEventListener pepe = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -104,7 +122,7 @@ public class ListActivity extends AppCompatActivity {
                     String categ = ds.getValue().toString();
                     categories.add(categ);
                 }
-                changeType(categories);
+                changeType(categories, spnrType);
                 //Do what you need to do with your list
             }
 
@@ -137,7 +155,20 @@ public class ListActivity extends AppCompatActivity {
         spnrType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                if(position == 0){
+                    ArrayList<Taskita> rcpLst = new ArrayList<Taskita>(taskitas);
+                    rcpAdapter.applyFilter(rcpLst);
+                } else {
+                    String str = spnrType.getSelectedItem().toString();
+                    ArrayList<Taskita> tskLst = new ArrayList<Taskita>();
+                    for (int i = 0; i < taskitas.size();i++) {
+                        Taskita rc = taskitas.get(i);
+                        if (rc.getTaskType().toString().equals(str)) {
+                            tskLst.add(rc);
+                        }
+                    }
+                    rcpAdapter.applyFilter(tskLst);
+                }
             }
 
             @Override
@@ -161,10 +192,107 @@ public class ListActivity extends AppCompatActivity {
         rcpAdapter.notifyDataSetChanged();
     }
 
-    private void changeType (ArrayList<String> typeList) {
+    private void changeType (ArrayList<String> typeList, Spinner tlSpnr) {
         ArrayAdapter<String> musicAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeList);
         musicAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnrType.setAdapter(musicAdapter);
+        tlSpnr.setAdapter(musicAdapter);
+    }
+
+    private void setUpItemTouchHelper() {
+        // https://github.com/nemanja-kovacevic/recycler-view-swipe-to-deletes
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+            // we want to cache these and not allocate anything repeatedly in the onChildDraw method
+            Drawable background;
+            Drawable xMark;
+            int xMarkMargin;
+            boolean initiated;
+
+            private void init() {
+                background = new ColorDrawable(Color.RED);
+                xMark = ContextCompat.getDrawable(ListActivity.this, R.drawable.ic_clear_24);
+                xMark.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                xMarkMargin = (int) ListActivity.this.getResources().getDimension(R.dimen.ic_clear_margin);
+                initiated = true;
+            }
+
+            // not important, we don't want drag & drop
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                xMark.setVisible(false,false);
+                return false;
+            }
+
+            @Override
+            public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                int position = viewHolder.getAdapterPosition();
+                TaskAdapter testAdapter = (TaskAdapter) recyclerView.getAdapter();
+                return super.getSwipeDirs(recyclerView, viewHolder);
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                int swipedPosition = viewHolder.getAdapterPosition();
+                TaskAdapter adapter = (TaskAdapter) rclTask.getAdapter();
+                adapter.remove(swipedPosition);
+                taskitas = adapter.getRecipeData();
+                saveInFirebase(taskitas);
+                adapter.notifyDataSetChanged();
+                initiated = false;
+                xMark.setVisible(false,false);
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                View itemView = viewHolder.itemView;
+
+                // Victor: Created safe clear of Delete button that previously don't dismiss :( --{
+                boolean isCanceled = (dX == 0f) && !isCurrentlyActive;
+                if (isCanceled) {
+                    xMark.setVisible(false,true);
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                    return;
+                }
+                // }--s
+
+                // not sure why, but this method get's called for viewholder that are already swiped away
+                if (viewHolder.getAdapterPosition() == -1) {
+                    // not interested in those
+                    return;
+                }
+
+                if (!initiated) {
+                    init();
+                }
+
+                // draw red background
+                background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                background.draw(c);
+
+                // draw x mark
+                int itemHeight = itemView.getBottom() - itemView.getTop();
+                int intrinsicWidth = xMark.getIntrinsicWidth();
+                int intrinsicHeight = xMark.getIntrinsicWidth();
+
+                int xMarkLeft = itemView.getRight() - xMarkMargin - intrinsicWidth;
+                int xMarkRight = itemView.getRight() - xMarkMargin;
+                int xMarkTop = itemView.getTop() + (itemHeight - intrinsicHeight)/2;
+                int xMarkBottom = xMarkTop + intrinsicHeight;
+                xMark.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
+
+                xMark.draw(c);
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+
+        };
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        mItemTouchHelper.attachToRecyclerView(rclTask);
+    }
+
+    private void clearCanvas(Canvas c, Float left, Float top, Float right, Float bottom) {
+        Paint pnt = new Paint();
+        c.drawRect(left, top, right, bottom, pnt);
     }
 
     public void onButtonShowPopupWindowClick(View view) {
@@ -185,7 +313,7 @@ public class ListActivity extends AppCompatActivity {
         Button btn2 = popupView.findViewById(R.id.btnRcp);
         Button btnPic = popupView.findViewById(R.id.btnPic);
 
-     // changeCategs(spnCat); // TODO: Cambiar categorías
+        changeType(categories, spnCat); // TODO: Cambiar categorías
         // Launch PopupView
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
@@ -226,13 +354,28 @@ public class ListActivity extends AppCompatActivity {
                     } else {
                         newRecipe = new Taskita (recipeName, recipeDesc, category,imageV,false);
                     } */
+                    newRecipe = new Taskita (recipeName, recipeDesc, category,false, null);
                     taskitas.add(newRecipe);
-                 // rcpAdapter.applyFilter(taskitas); // TODO: update adapter
+                    rcpAdapter.applyFilter(taskitas);
                     spnCat.setSelection(0);
                     rcpAdapter.notifyDataSetChanged();
-
+                    saveInFirebase(taskitas);
                     Toast.makeText(ListActivity.this, "Registro agregado", Toast.LENGTH_SHORT).show();
                     popupWindow.dismiss();
+                }
+            }
+        });
+    }
+
+    public void saveInFirebase(ArrayList <Taskita> newListData) {
+        // Save array in Firebase
+        dbRefTasks.setValue(newListData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+
+                } else {
+                    Toast.makeText(ListActivity.this, "El listado no se ha guardado", Toast.LENGTH_SHORT).show();
                 }
             }
         });

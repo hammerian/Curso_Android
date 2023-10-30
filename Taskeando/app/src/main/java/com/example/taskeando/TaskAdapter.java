@@ -19,27 +19,26 @@ import java.util.ArrayList;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private ArrayList<Taskita> taskitaData;
-  //  private ArrayList<Taskita> filterData;
+    private ArrayList<Taskita> filterData;
 
     private Context adapHolder;
 
-
-
-    /*public TaskAdapter(ArrayList<Taskita> lstData) {
+    public TaskAdapter(ArrayList<Taskita> lstData) {
         this.taskitaData = lstData;
         this.filterData = lstData;
-    }*/
+    }
 
-    public TaskAdapter(ArrayList<Taskita> taskitaData) {
-        this.taskitaData = taskitaData;
+    public void applyFilter(ArrayList<Taskita> lstData) {
+        this.filterData = lstData;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        if (taskitaData == null) {
+        if (filterData == null) {
             return 0;
         }
-        return taskitaData.size();
+        return filterData.size();
     }
 
     public long getItemId(int position) {
@@ -82,7 +81,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull TaskAdapter.ViewHolder holder, int position) {
         int myPos = position;
         // Populate cell with Recipe Data
-        final Taskita mListData = taskitaData.get(position);
+        final Taskita mListData = filterData.get(position);
         holder.txtView1.setText(mListData.getTaskName());
         holder.txtView2.setText(mListData.getTaskDescription());
         holder.txtView3.setText(mListData.getTaskType());
@@ -93,7 +92,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 mListData.setTaskEnd(!mListData.isTaskEnd());
-                taskitaData.set(myPos,mListData);
+                filterData.set(myPos,mListData);
                 // TODO: Guardar datos en Firebase ¿?
             }
         });
@@ -102,6 +101,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     // Function for return the working array in the Adapter
     public ArrayList<Taskita> getRecipeData() {
         return this.taskitaData;
+    }
+
+    public void remove(int position) {
+        Taskita item = taskitaData.get(position);
+        if (taskitaData.contains(item)) {
+            taskitaData.remove(position);
+            notifyItemRemoved(position);
+        }
+        filterData = taskitaData;
     }
 
     // Function for replace the working array in adapter
