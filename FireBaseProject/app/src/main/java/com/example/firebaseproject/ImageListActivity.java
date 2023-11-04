@@ -32,11 +32,13 @@ public class ImageListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image_list);
 
         rclDwarfs = (RecyclerView) findViewById(R.id.rccl1);
-
+        // Instancia el listado de imagenes en Firebase
         dbRefDawrfs = FirebaseDatabase.getInstance().getReference().child("dwarfs");
 
+        // Define el array Adpater
         rclDwarfs.setLayoutManager(new LinearLayoutManager(this));
         listAdapter= new MyListAdapter(dwarfs);
+        // Y carga el Array de imagenes
         rclDwarfs.setAdapter(listAdapter);
         rclDwarfs.setHasFixedSize(false);
 
@@ -44,6 +46,7 @@ public class ImageListActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 dwarfs = new ArrayList<>();
+                // Recupera los strings de las URLs de las imagenes y las carga en el Array
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     String categ = ds.getValue().toString();
                     dwarfs.add(categ);
@@ -62,6 +65,7 @@ public class ImageListActivity extends AppCompatActivity {
 
     private void updateList (ArrayList<String> myNewList) {
         listAdapter = new MyListAdapter(myNewList);
+        // Actualiza el Adapter con el array cargado
         rclDwarfs.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
     }

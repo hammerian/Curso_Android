@@ -53,12 +53,14 @@ public class ProfileActivity extends AppCompatActivity {
     private ProgressDialog prgDlg;
 
     private MyUser regUser;
+    private DataWriter dataWr;
 
     private String dataName, dataSurname, dataEmail, dataPhone;
 
     public void onStart() {
         super.onStart();
-        if (fbUser == null){
+        // Comprobación para evitar valores null en formulario
+        if (fbUser == null && !(dataWr.sharedPreferenceExist("userId"))){
             finish();
         }
     }
@@ -79,7 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
         imgVw = (ImageView) findViewById(R.id.imgVw);
 
         prgDlg = new ProgressDialog(this);
-
+        dataWr = new DataWriter(this);
         // Deshabilita los campos de texto y botones
         activateButtons(false);
 
@@ -87,17 +89,25 @@ public class ProfileActivity extends AppCompatActivity {
         // Bundle extras = getIntent().getExtras();
         // regUser = (MyUser) extras.getSerializable("prfUser");
 
-        // Activación de Firebase
-        mAuth = FirebaseAuth.getInstance();
-        // Activa el usuario de Firebase
-        fbUser = mAuth.getCurrentUser();
-        // Recupera de Firebase Database los datos del usuario de Firebase
-        dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios");
+        if (dataWr.sharedPreferenceExist("userId")) {
+            // Recupera de Firebase Database los datos del usuario de Firebase
+            String myId = dataWr.getuserId();
+            dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios").child(myId);
+            reloadValues();
+        } else {
+            // Activación de Firebase
+            mAuth = FirebaseAuth.getInstance();
+            // Activa el usuario de Firebase
+            fbUser = mAuth.getCurrentUser();
+            // Recupera de Firebase Database los datos del usuario de Firebase
+            dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios").child(fbUser.getUid());
+        }
         // Activa la base de datos de Firebase
         stgRef = FirebaseStorage.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
 
         if (fbUser != null) {
+            // Comprobación para evitar valores null en formulario
             reloadValues();
         }
 
@@ -112,9 +122,10 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 activateButtons(false);
-
+                // Activamos el 'Cargando'
                 prgDlg.setMessage("Guardando...");
                 prgDlg.show();
+                // Recuperamos los datos escritos // TODO: controlar los errores
                 dataName = edtTxt2.getText().toString().trim();
                 dataSurname = edtTxt3.getText().toString().trim();
                 dataEmail = edtTxt4.getText().toString().trim();
@@ -139,6 +150,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Cambiamos a la pantalla de configuración
                 Intent itn = new Intent(ProfileActivity.this, ConfigActivity.class);
                 startActivity(itn);
             }
@@ -147,6 +159,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Cambiamos a un listado de imagenes en un Recycleview
                 Intent itn = new Intent(ProfileActivity.this, ImageListActivity.class);
                 startActivity(itn);
             }
@@ -155,6 +168,7 @@ public class ProfileActivity extends AppCompatActivity {
         imgVw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Función para recuperar archivos de la galería
                 Intent galleryIntent = new Intent();
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
@@ -165,20 +179,26 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void guardarFoto(MyUser user, String uidd) {
+        // Crea un nombre de archivo desde unos datos previamente establecidos // System.currentTimeMillis() es el timestamp
         StorageReference fileRef = stgRef.child(System.currentTimeMillis() + getFileExtension(userUri));
+        // Escribe los datos de la imagen en la base de datos de Firestore
         fileRef.putFile(userUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                // Al guardar, nos recupera una URL de la imagen
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        // Nos devuelve un Uri, para guardar en el objeto Usuario
                         user.setImageUser(uri.toString());
-                        dbRef.child(uidd).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        // Guardamos el usuario en Firebase
+                        dbRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+                                // Desactivamos el 'Cargando'
                                 prgDlg.dismiss();
                                 if(task.isSuccessful()){
+                                    // Guardado con éxito, regeneramos el usuario
                                     regUser = user;
                                     Toast.makeText(ProfileActivity.this, "Datos Modificados Correctamente", Toast.LENGTH_LONG).show();
                                 } else {
@@ -195,6 +215,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private String getFileExtension(Uri mUri){
+        // Función para crear una extensión en la URL de la imagen
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(mUri));
@@ -202,7 +223,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void reloadValues() {
         // evento de completado de la operación de recuperar los datos del usuario
-        dbRef.child(fbUser.getUid()).addValueEventListener(new ValueEventListener() {
+        dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -238,7 +259,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-
+        // Recuperar imagen de galería de fotos del dispositivo
         if(requestCode == 2 && resultCode == RESULT_OK && data != null){
             userUri = data.getData();
             imgVw.setImageURI(userUri);

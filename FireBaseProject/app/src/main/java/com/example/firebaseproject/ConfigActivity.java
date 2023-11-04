@@ -27,6 +27,8 @@ public class ConfigActivity extends AppCompatActivity {
     private Button btnDel;
     private Button btnLogout;
 
+    private DataWriter dataWr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,13 +38,15 @@ public class ConfigActivity extends AppCompatActivity {
         btnLogout = (Button) findViewById(R.id.btnLogout);
         mAuth = FirebaseAuth.getInstance();
         fbUser = mAuth.getCurrentUser();
+        dataWr = new DataWriter(this);
         String userUUid = fbUser.getUid();
         dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios");
 
+        // Metodo del botón Borrar usuario
         btnDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // Abrimos diálogo de confirmación
                 openDialog(userUUid);
 
             }
@@ -52,7 +56,7 @@ public class ConfigActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
-
+                dataWr.clearuserId();
                 Intent itn = new Intent(ConfigActivity.this, MainActivity.class);
                 startActivity(itn);
                 finish();
@@ -62,7 +66,7 @@ public class ConfigActivity extends AppCompatActivity {
 
     private void openDialog (String userUUid) {
         AlertDialog.Builder alrtDlgBldr = new AlertDialog.Builder(ConfigActivity.this);
-
+        // Diálogo de confirmación
         alrtDlgBldr.setTitle("¡PRECAUCIÓN!");
         alrtDlgBldr.setMessage("¿Estás seguro que quieres quedarte sin dispositivo?");
         alrtDlgBldr.setCancelable(false);
@@ -70,16 +74,19 @@ public class ConfigActivity extends AppCompatActivity {
         alrtDlgBldr.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                // Al confirmar borrado, se borra en Firebase de autenticate.
                 fbUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-
+                            // Al confirmar borrado, se borra en Firebase el usuario de base de datos
                             dbRef.child((userUUid)).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+                                        // Al confirmar borrado, se borra de la app
+                                        dataWr.clearuserId();
+                                        // Volvemos a la pantalla de inicio
                                         Intent itn = new Intent(ConfigActivity.this, MainActivity.class);
                                         itn.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(itn);
@@ -104,7 +111,7 @@ public class ConfigActivity extends AppCompatActivity {
 
             }
         });
-
+        // Se muestra el dialogo de confirmación
         AlertDialog alrt = alrtDlgBldr.create();
         alrt.show();
     }

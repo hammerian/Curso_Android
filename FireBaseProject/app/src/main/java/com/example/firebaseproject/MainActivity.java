@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     // Variables de datos
     private String data1, data2;
     private MyUser logUser;
+    private DataWriter dataWr;
 
 
     @Override
@@ -58,9 +59,17 @@ public class MainActivity extends AppCompatActivity {
         btn1 = findViewById(R.id.btn1);
      // btn2 = findViewById(R.id.btn2);
         imageButton2 = findViewById(R.id.imageButton2);
-
+        dataWr = new DataWriter(this);
         // Activación de Firebase
         mAuth = FirebaseAuth.getInstance();
+
+        if (dataWr.sharedPreferenceExist("userId")) {
+            // App already executed
+            String myId = dataWr.getuserId();
+            dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios").child(myId);
+            Intent itn = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(itn);
+        }
 
         // Acción de botón para ir a Registro
         txtView2.setOnClickListener(new View.OnClickListener() {
@@ -119,8 +128,9 @@ public class MainActivity extends AppCompatActivity {
                                                 // Recupera los datos del usuario en un POJO creado por nosotros
                                                 logUser = snapshot.getValue(MyUser.class);
                                                 String name = logUser.getName();
+                                                dataWr.setuserId(fbUser.getUid().toString());
                                                 Toast.makeText(MainActivity.this, "El Login se ha completado " + name, Toast.LENGTH_SHORT).show();
-
+                                                //
                                                 Intent itn = new Intent(MainActivity.this, ProfileActivity.class);
                                                 // itn.putExtra("prfUser", logUser); // Envío de datos a otra pantalla (Deshabilitado)
                                                 startActivity(itn);
