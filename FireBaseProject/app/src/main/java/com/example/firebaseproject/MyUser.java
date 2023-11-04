@@ -9,14 +9,17 @@ public class MyUser implements Serializable {
     private String email;
     private String phone;
 
+    private String imageUser;
+
     public MyUser() {
     }
 
-    public MyUser(String name, String surname, String email, String phone) {
+    public MyUser(String name, String surname, String email, String phone, String imageUser) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.phone = phone;
+        this.imageUser = imageUser;
     }
 
     public String getName() {
@@ -49,5 +52,13 @@ public class MyUser implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getImageUser() {
+        return imageUser;
+    }
+
+    public void setImageUser(String imageUser) {
+        this.imageUser = imageUser;
     }
 }

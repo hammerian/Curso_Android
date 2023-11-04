@@ -4,14 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,12 +26,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference dbRef;
     private FirebaseUser fbUser;
+    private StorageReference stgRef;
+    private FirebaseStorage storage;
 
     private EditText edtTxt2;
     private EditText edtTxt3;
@@ -33,8 +44,11 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText edtTxt6;
     private Button btnModf;
     private Button btnSave;
-
+    private Button btnImage;
     private Button btnConfig;
+    private ImageView imgVw;
+
+    private Uri userUri;
 
     private ProgressDialog prgDlg;
 
@@ -61,6 +75,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnModf = (Button) findViewById(R.id.btnModf);
         btnSave = (Button) findViewById(R.id.btnSave);
         btnConfig = (Button) findViewById(R.id.btnConfig);
+        btnImage = (Button) findViewById(R.id.btnImages);
+        imgVw = (ImageView) findViewById(R.id.imgVw);
 
         prgDlg = new ProgressDialog(this);
 
@@ -73,10 +89,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Activación de Firebase
         mAuth = FirebaseAuth.getInstance();
-        // activa el usuario de Firebase
+        // Activa el usuario de Firebase
         fbUser = mAuth.getCurrentUser();
-        // recupera de Firebase Database los datos del usuario de Firebase
+        // Recupera de Firebase Database los datos del usuario de Firebase
         dbRef = FirebaseDatabase.getInstance().getReference().child("usuarios");
+        // Activa la base de datos de Firebase
+        stgRef = FirebaseStorage.getInstance().getReference();
+        storage = FirebaseStorage.getInstance();
 
         if (fbUser != null) {
             reloadValues();
@@ -100,8 +119,9 @@ public class ProfileActivity extends AppCompatActivity {
                 dataSurname = edtTxt3.getText().toString().trim();
                 dataEmail = edtTxt4.getText().toString().trim();
                 dataPhone = edtTxt6.getText().toString().trim();
-                MyUser newUser = new MyUser(dataName,dataSurname,dataEmail,dataPhone);
-                dbRef.child(fbUser.getUid()).setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                MyUser newUser = new MyUser(dataName,dataSurname,dataEmail,dataPhone, null);
+                guardarFoto(newUser, fbUser.getUid());
+            /* dbRef.child(fbUser.getUid()).setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         prgDlg.dismiss();
@@ -111,7 +131,7 @@ public class ProfileActivity extends AppCompatActivity {
                             Toast.makeText(ProfileActivity.this, "Ha habido un error al actualizar el Usuario", Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+                }); */
 
             }
         });
@@ -124,6 +144,60 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        btnImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itn = new Intent(ProfileActivity.this, ImageListActivity.class);
+                startActivity(itn);
+            }
+        });
+
+        imgVw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, 2);
+            }
+        });
+
+    }
+
+    private void guardarFoto(MyUser user, String uidd) {
+        StorageReference fileRef = stgRef.child(System.currentTimeMillis() + getFileExtension(userUri));
+        fileRef.putFile(userUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        user.setImageUser(uri.toString());
+                        dbRef.child(uidd).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                prgDlg.dismiss();
+                                if(task.isSuccessful()){
+                                    regUser = user;
+                                    Toast.makeText(ProfileActivity.this, "Datos Modificados Correctamente", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(ProfileActivity.this, "Ha habido un error al actualizar el Usuario", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+                    }
+                });
+
+            }
+        });
+    }
+
+    private String getFileExtension(Uri mUri){
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(mUri));
     }
 
     private void reloadValues() {
@@ -139,6 +213,8 @@ public class ProfileActivity extends AppCompatActivity {
                     edtTxt3.setText(regUser.getSurname().toString());
                     edtTxt4.setText(regUser.getEmail().toString());
                     edtTxt6.setText(regUser.getPhone().toString());
+
+                    Glide.with(ProfileActivity.this.getApplicationContext()).load(regUser.getImageUser()).into(imgVw);
                 }
             }
 
@@ -157,5 +233,15 @@ public class ProfileActivity extends AppCompatActivity {
         edtTxt6.setEnabled(act);
         btnModf.setEnabled(!act);
         btnSave.setEnabled(act);
+        imgVw.setEnabled(act);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 2 && resultCode == RESULT_OK && data != null){
+            userUri = data.getData();
+            imgVw.setImageURI(userUri);
+        }
     }
 }

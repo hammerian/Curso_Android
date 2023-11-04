@@ -104,13 +104,25 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnConfig"
-        android:layout_below="@id/lnrLyt3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+    <LinearLayout
+        android:id="@+id/lnrLyt4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Configuración" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/lnrLyt3"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Configuración" />
+        <Button
+            android:id="@+id/btnImages"
+            android:layout_marginLeft="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Imagenes" />
+    </LinearLayout>
 
 </RelativeLayout>

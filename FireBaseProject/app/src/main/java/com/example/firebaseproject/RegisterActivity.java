@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // consigue el id del usuario en Firebase
                             String userUuid = fbUser.getUid();
                             // Crea un usuario desde nuestro POJO
-                            regUser = new MyUser(dataName, dataSurname, dataEmail, dataPhone);
+                            regUser = new MyUser(dataName, dataSurname, dataEmail, dataPhone, null);
 
                             // Evento de guardado del usuario recién creado en Firebase Database
                             dbRef.child(userUuid).setValue(regUser).addOnCompleteListener(new OnCompleteListener<Void>() {
