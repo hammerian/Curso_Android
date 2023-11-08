@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Mapapp</string>
+    <string name="creatu">Crea tu Marcador</string>
+    <string name="ttlo">Título</string>
+    <string name="longitude">Longitud</string>
+    <string name="latitude">Latitud</string>
+    <string name="edit">Editar</string>
+    <string name="save">Guardar</string>
 </resources>
