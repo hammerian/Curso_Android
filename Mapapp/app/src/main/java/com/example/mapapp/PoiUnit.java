@@ -2,16 +2,16 @@ package com.example.mapapp;
 
 import java.io.Serializable;
 
-public class poiUnit implements Serializable {
+public class PoiUnit implements Serializable {
 
     private String Description;
     private String Long;
     private String Lati;
 
-    public poiUnit() {
+    public PoiUnit() {
     }
 
-    public poiUnit(String description, String aLong, String lati) {
+    public PoiUnit(String description, String aLong, String lati) {
         Description = description;
         Long = aLong;
         Lati = lati;

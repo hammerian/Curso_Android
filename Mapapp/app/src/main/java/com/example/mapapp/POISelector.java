@@ -23,8 +23,9 @@ public class POISelector extends AppCompatActivity  {
     private Button btnSave;
 
     private Button btnGo;
+    private Button btnSelect;
 
-    private ArrayList<poiUnit> listPoist;
+    private ArrayList<PoiUnit> listPoist;
 
 
     @Override
@@ -40,10 +41,11 @@ public class POISelector extends AppCompatActivity  {
         btnEdit = (Button) findViewById(R.id.btnEdit);
         btnSave = (Button) findViewById(R.id.btnSave);
         btnGo = (Button) findViewById(R.id.btnGo);
+        btnSelect = (Button) findViewById(R.id.btnSelect);
 
         activateButtons(false);
 
-        listPoist = new ArrayList<poiUnit>();
+        listPoist = new ArrayList<PoiUnit>();
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +65,7 @@ public class POISelector extends AppCompatActivity  {
                 String tmpLat = edtLatt.getText().toString().trim();
                 String tmpLon = edtLong.getText().toString().trim();
 
-                poiUnit tmpPoi = new poiUnit(tmpDesc, tmpLat, tmpLon);
+                PoiUnit tmpPoi = new PoiUnit(tmpDesc, tmpLat.replaceAll(",","."), tmpLon.replaceAll(",","."));
 
                 listPoist.add(tmpPoi);
 
@@ -83,6 +85,14 @@ public class POISelector extends AppCompatActivity  {
                 } else {
                     Toast.makeText(POISelector.this, "Añade un POI como mínimo", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itn = new Intent(POISelector.this, POIList.class);
+                startActivity(itn);
             }
         });
     }

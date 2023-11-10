@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -19,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap minimap;
 
-    private ArrayList<poiUnit> listPoist;
+    private ArrayList<PoiUnit> listPoist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
 
         Bundle extras = getIntent().getExtras();
-        listPoist = (ArrayList<poiUnit>) extras.getSerializable("mapData");
+        listPoist = (ArrayList<PoiUnit>) extras.getSerializable("mapData");
         SupportMapFragment mapFr = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.frMap);
         mapFr.getMapAsync(this);
 
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(@NonNull GoogleMap googleMap) {
         minimap = googleMap;
 
-        for (poiUnit myPoi: listPoist) {
+        for (PoiUnit myPoi: listPoist) {
             String poiDesc = myPoi.getDescription();
             Double poiLati = Double.parseDouble(myPoi.getLati());
             Double poiLong = Double.parseDouble(myPoi.getLong());
