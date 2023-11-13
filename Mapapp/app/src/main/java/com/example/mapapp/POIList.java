@@ -51,6 +51,7 @@ public class POIList extends AppCompatActivity {
         listPoist.add("Berlin");
         listPoist.add("Dublin");
         listPoist.add("Maracaibo");
+        listPoist.add("Roma");
 
         PoiUnit poi1 = new PoiUnit("Madrid","-3.703367","40.416712");
 
@@ -60,8 +61,10 @@ public class POIList extends AppCompatActivity {
         poiList.put(listPoist.get(2),poi2);
         PoiUnit poi3 = new PoiUnit("Dublin","-6.250368","53.348068");
         poiList.put(listPoist.get(3),poi3);
-        PoiUnit poi4 = new PoiUnit("Dublin","-71.619051","10.639665");
+        PoiUnit poi4 = new PoiUnit("Maracaibo","-71.619051","10.639665");
         poiList.put(listPoist.get(4),poi4);
+        PoiUnit poi5 = new PoiUnit("Roma","12.476655","41.899339");
+        poiList.put(listPoist.get(5),poi5);
 
         changePOIs(spnListMap);
 
