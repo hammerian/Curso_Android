@@ -28,12 +28,17 @@ public class MainActivity extends AppCompatActivity implements
     private MapView mapView;
     private MapboxMap mbMap;
 
+    private ArrayList<PoiUnit> listPoist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Mapbox.getInstance(this, getString(R.string.access_token));
         setContentView(R.layout.activity_main);
+
+        Bundle extras = getIntent().getExtras();
+        listPoist = (ArrayList<PoiUnit>) extras.getSerializable("mapData");
 
         mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
@@ -88,8 +93,18 @@ public class MainActivity extends AppCompatActivity implements
     public void onMapReady(MapboxMap mapboxMap) {
         mbMap = mapboxMap;
 
-        LatLng newPoi = new LatLng(40.15, -3.15);
-        mbMap.addMarker(new MarkerOptions().position(newPoi).title("lo que sea"));
+        for (PoiUnit myPoi: listPoist) {
+            String poiDesc = myPoi.getDescription();
+            Double poiLati = Double.parseDouble(myPoi.getLati());
+            Double poiLong = Double.parseDouble(myPoi.getLong());
+
+            addPoi(poiDesc,poiLati,poiLong);
+        }
+    }
+
+    private void addPoi (String desc, Double latitude, Double longitude){
+        LatLng newPoi = new LatLng(latitude, longitude);
+        mbMap.addMarker(new MarkerOptions().position(newPoi).title(desc));
         mbMap.moveCamera(CameraUpdateFactory.newLatLng(newPoi));
     }
 

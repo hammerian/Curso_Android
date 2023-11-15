@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Mapboxeando</string>
+    <string name="ttlo">Título</string>
+    <string name="selec_local">Selecciona una localización</string>
     <string name="access_token">pk.eyJ1IjoiZm9uY2UiLCJhIjoiY2xvdHkzdWNmMGVwajJpcWVkcGl5OGJsNyJ9.f_VKvCFXpSluVnabxlAx1Q</string>
+    <string name="dir_punto">Añadir Punto</string>
+    <string name="go_mapa">Ir a Mapa</string>
 </resources>

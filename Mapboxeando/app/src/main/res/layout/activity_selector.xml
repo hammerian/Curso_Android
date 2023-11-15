@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Selector">
+
+    <TextView
+        android:id="@+id/txtPoi"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="@string/selec_local" />
+
+    <EditText
+        android:id="@+id/edtDesc"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtPoi"
+        android:layout_marginTop="35dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/ttlo" />
+
+    <Spinner
+        android:id="@+id/spnrPOI"
+        android:layout_below="@+id/edtDesc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnAddPoi"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_below="@id/spnrPOI"
+        android:text="@string/dir_punto" />
+
+    <TextView
+        android:id="@+id/txtCntPOI"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/btnAddPoi"
+        android:textSize="30dp"
+        android:text="0 POIs" />
+
+    <Button
+        android:id="@+id/btnMap"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_below="@id/txtCntPOI"
+        android:text="@string/go_mapa" />
+
+</RelativeLayout>
