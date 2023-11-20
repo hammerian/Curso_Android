@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 public class ConfigActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -28,6 +30,7 @@ public class ConfigActivity extends AppCompatActivity {
     private Button btnLogout;
 
     private DataWriter dataWr;
+    private ArrayList<PoiPos> listData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
