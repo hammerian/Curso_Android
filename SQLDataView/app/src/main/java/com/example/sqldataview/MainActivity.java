@@ -1,16 +1,15 @@
 package com.example.sqldataview;
 
-import static android.system.Os.close;
-
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView txt2;
     private TextView txt3;
 
-    public static String DB_FILEPATH = "/data/data/{package_name}/databases/database.db";
+    private SQLiteDatabase dbnew;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,35 +33,38 @@ public class MainActivity extends AppCompatActivity {
         txt2 = (TextView) findViewById(R.id.R2);
         txt3 = (TextView) findViewById(R.id.R3);
 
-        bdacces = new DBAcess(getBaseContext());
+     // bdacces = new DBAcess(getBaseContext());
 
-        ciudades = bdacces.getAllCities();
-        Ciudad mycity = ciudades.get(0);
-        txt1.setText(mycity.getPoblation());
-        txt2.setText(mycity.getCityName());
-        txt3.setText(mycity.getSurface());
+     // ciudades = bdacces.getAllCities();
+     // Ciudad city = ciudades.get(0);
+     // txt1.setText(city.getPoblation());
+     // txt2.setText(city.getCityName());
+     // txt3.setText(city.getSurface());
+
+        OpenHelper openHelper = new OpenHelper(this);
+        this.dbnew = openHelper.getWritableDatabase();
 
     }
 
-    /**
-     * Copies the database file at the specified location over the current
-     * internal application database.
-     * */
-    public boolean importDatabase(String dbPath) throws IOException {
 
-        // Close the SQLiteOpenHelper so it will commit the created empty
-        // database to internal storage.
-        bdacces.close();
-        File newDb = new File(dbPath);
-        File oldDb = new File(DB_FILEPATH);
-        if (newDb.exists()) {
-            FileUtils.copyFile(new FileInputStream(newDb), new FileOutputStream(oldDb));
-            // Access the copied database so SQLiteHelper will cache it and mark
-            // it as created.
-            bdacces.getWritableDatabase().close();
-            return true;
+    private static class OpenHelper extends SQLiteOpenHelper {
+
+        private static final String DATABASE_NAME = "Comic.sqlite";
+        private static final int DATABASE_VERSION = 1;
+
+        OpenHelper(Context context) {
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
-        return false;
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL("CREATE TABLE RSS (TITLE TEXT, LINK TEXT, DESCR TEXT, PUBDATE DATE, GUID TEXT, READ TEXT, TYPE TEXT)");
+            db.execSQL("CREATE TABLE PAGE (LINK TEXT, CONTENT TEXT)");
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+        }
     }
 
 }

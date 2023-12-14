@@ -30,7 +30,6 @@ public class ConfigActivity extends AppCompatActivity {
     private Button btnLogout;
 
     private DataWriter dataWr;
-    private ArrayList<PoiPos> listData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

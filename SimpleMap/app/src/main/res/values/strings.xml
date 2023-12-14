@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SimpleMap</string>
+    <string name="desc">Descripción</string>
+    <string name="agregar">Agregar</string>
+</resources>

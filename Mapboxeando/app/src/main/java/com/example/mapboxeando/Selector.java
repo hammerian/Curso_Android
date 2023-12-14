@@ -2,7 +2,10 @@ package com.example.mapboxeando;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,8 +16,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mapbox.mapboxsdk.geometry.LatLng;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Selector extends AppCompatActivity {
 
@@ -30,6 +37,7 @@ public class Selector extends AppCompatActivity {
     private ArrayList<String> listPoist;
 
     private ArrayList<PoiUnit> newList;
+    private Context myContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +50,7 @@ public class Selector extends AppCompatActivity {
         btnAddPoi = (Button) findViewById(R.id.btnAddPoi);
         spnListMap = (Spinner) findViewById(R.id.spnrPOI);
 
+        myContext = this.getBaseContext();
         poiList = new HashMap<>();
         newList = new ArrayList<PoiUnit>();
         listPoist = new ArrayList<String>();
@@ -77,6 +86,10 @@ public class Selector extends AppCompatActivity {
                         newList.add(newPoint);
                         txtListPOI.setText(""+ newList.size()+ "POIs");
                         descTxt.setText("");
+
+                     // getLocationFromAddress(myContext,newPoint.getDescription().toString());
+                        LatLng latLan = new LatLng(Double.parseDouble(newPoint.getLati()), Double.parseDouble(newPoint.getLong()));
+                        getAddressFromLocation(myContext, latLan);
                     } else {
                         Toast.makeText(Selector.this, "Debes escribir un nombre para continuar", Toast.LENGTH_SHORT).show();
                     }
@@ -122,4 +135,56 @@ public class Selector extends AppCompatActivity {
         categAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnR.setAdapter(categAdapter);
     }
+
+    public LatLng getLocationFromAddress(Context context, String strAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng latLan= null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            latLan = new LatLng(location.getLatitude(), location.getLongitude());
+
+
+        } catch (IOException ex) {
+            Toast.makeText(context,ex.toString() , Toast.LENGTH_SHORT).show();
+            // ex.printStackTrace();
+        }
+
+        return latLan;
+    }
+
+    public String getAddressFromLocation (Context context, LatLng latLan) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        String newAdress = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocation(latLan.getLatitude(), latLan.getLongitude(), 5);
+            if (address == null) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            newAdress = location.toString();
+            latLan = new LatLng(location.getLatitude(), location.getLongitude());
+
+        } catch (IOException ex) {
+            Toast.makeText(context,ex.toString() , Toast.LENGTH_SHORT).show();
+         // ex.printStackTrace();
+        }
+
+        return newAdress;
+    }
+
+
 }

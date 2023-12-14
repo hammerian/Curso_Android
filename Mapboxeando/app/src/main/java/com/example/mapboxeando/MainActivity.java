@@ -2,6 +2,10 @@ package com.example.mapboxeando;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -19,6 +23,7 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode;
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,8 +109,35 @@ public class MainActivity extends AppCompatActivity implements
 
     private void addPoi (String desc, Double latitude, Double longitude){
         LatLng newPoi = new LatLng(latitude, longitude);
+        getLocationFromAddress(this.getBaseContext(),desc);
         mbMap.addMarker(new MarkerOptions().position(newPoi).title(desc));
         mbMap.moveCamera(CameraUpdateFactory.newLatLng(newPoi));
+    }
+
+    public LatLng getLocationFromAddress(Context context, String strAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng latLan= null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            latLan = new LatLng(location.getLatitude(), location.getLongitude());
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAAA");
+            System.out.println(""+location.getLatitude());
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+
+        return latLan;
     }
 
 }
